@@ -7,9 +7,15 @@ import (
 	"github.com/hashicorp/go-tfe"
 )
 
-var ctx = context.Background()
+var Ctx = context.Background()
 
-func TfeClient() (Tfclient *tfe.Client) {
+var Tfclient *tfe.Client
+
+func init() {
+	Tfclient = TfeClient()
+}
+
+func TfeClient() *tfe.Client {
 
 	//Move token and host to env checks
 	config := &tfe.Config{}
@@ -22,5 +28,5 @@ func TfeClient() (Tfclient *tfe.Client) {
 	}
 	log.Println("tfe client intailised")
 
-	return
+	return Tfclient
 }
