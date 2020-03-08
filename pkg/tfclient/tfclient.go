@@ -26,7 +26,8 @@ func TfeClient() *tfe.Client {
 		log.Print(config)
 		log.Fatal(err)
 	}
-	log.Println("tfe client intailised")
+	//commenting for now, will be moving to debug log level
+	//log.Println("tfe client intailised")
 
 	return Tfclient
 }

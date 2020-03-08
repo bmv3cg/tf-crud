@@ -28,8 +28,7 @@ var listCmd = &cobra.Command{
 	Short: "list all workspace and workspace ID",
 	Long:  `List all workspace in a Terraform cloud account with workspace name and workspace ID`,
 	Run: func(cmd *cobra.Command, args []string) {
-		//	tfcrud.GetWorkspaceID(cmd.InheritedFlags().Lookup("Wsname").Value.String(), tfclient.Ctx, tfclient.Tfclient)
-		tfcrud.ListWorkspace(tfclient.Ctx, tfclient.Tfclient)
+		tfcrud.ListWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
 	},
 }
 
