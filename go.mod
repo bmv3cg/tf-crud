@@ -1,5 +1,3 @@
-module tfe
-
 go 1.12
 
 require (
@@ -8,3 +6,5 @@ require (
 	github.com/spf13/cobra v0.0.6
 	github.com/spf13/viper v1.6.2
 )
+
+module github.com/bmv3cg/tf-crud

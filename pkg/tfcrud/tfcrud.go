@@ -11,7 +11,7 @@ import (
 func GetWorkspaceID(TfeWS string, ctx context.Context, Tfclient *tfe.Client) string {
 
 	//Move to workspace list options
-	wl, err := Tfclient.Workspaces.List(ctx, "tf-cloud", tfe.WorkspaceListOptions{})
+	wl, err := Tfclient.Workspaces.List(ctx, "tfe-cloud-spike", tfe.WorkspaceListOptions{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,7 +29,7 @@ func GetWorkspaceID(TfeWS string, ctx context.Context, Tfclient *tfe.Client) str
 func CreateWorkspace(TfeWsName string, ctx context.Context, Tfclient *tfe.Client) string {
 
 	//Create workspace
-	_, err := Tfclient.Workspaces.Create(ctx, "tf-cloud", tfe.WorkspaceCreateOptions{
+	_, err := Tfclient.Workspaces.Create(ctx, "tfe-cloud-spike", tfe.WorkspaceCreateOptions{
 		Name: tfe.String(TfeWsName),
 	})
 	if err != nil {
@@ -41,7 +41,7 @@ func CreateWorkspace(TfeWsName string, ctx context.Context, Tfclient *tfe.Client
 func DeleteWorkspace(TfeWsName string, ctx context.Context, Tfclient *tfe.Client) string {
 
 	//Delete  workspace
-	err := Tfclient.Workspaces.Delete(ctx, "tf-cloud", TfeWsName)
+	err := Tfclient.Workspaces.Delete(ctx, "tfe-cloud-spike", TfeWsName)
 	if err != nil {
 		log.Fatal(err)
 	}

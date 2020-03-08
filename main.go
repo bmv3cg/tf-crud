@@ -15,8 +15,9 @@ limitations under the License.
 */
 package main
 
-import "github.com//bmv3cg/tf-crud/cmd"
+import "github.com/bmv3cg/tf-crud/cmd"
 
 func main() {
 	cmd.Execute()
+
 }
