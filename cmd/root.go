@@ -66,10 +66,10 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.PersistentFlags().StringVar(&wsname, "wsname", "ws", "workspace name (required)")
+	rootCmd.PersistentFlags().StringVar(&wsname, "wsname", "", "workspace name (required)")
 	rootCmd.MarkFlagRequired("wsname")
 	rootCmd.PersistentFlags().StringVar(&organisation, "organisation", "organisation", "Organisation name (required)")
-	rootCmd.MarkFlagRequired("organisation")
+	rootCmd.MarkPersistentFlagRequired("organisation")
 }
 
 // initConfig reads in config file and ENV variables if set.
