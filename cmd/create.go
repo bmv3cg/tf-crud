@@ -23,9 +23,10 @@ import (
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create Terraform cloud workspace",
-	Long:  `Creates Terraform workspace in an organsiation`,
+	Use:     "create",
+	Aliases: []string{"mk"},
+	Short:   "Create Terraform cloud workspace",
+	Long:    `Creates Terraform workspace in an organsiation`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tfcrud.CreateWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(), cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
 	},

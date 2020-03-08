@@ -24,9 +24,10 @@ import (
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "list all workspace and workspace ID",
-	Long:  `List all workspace in a Terraform cloud account with workspace name and workspace ID`,
+	Use:     "list",
+	Aliases: []string{"ls"},
+	Short:   "list all workspace and workspace ID",
+	Long:    `List all workspace in a Terraform cloud account with workspace name and workspace ID`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tfcrud.ListWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
 	},

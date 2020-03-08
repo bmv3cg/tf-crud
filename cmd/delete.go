@@ -23,9 +23,10 @@ import (
 
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
-	Use:   "delete",
-	Short: "Delete terraform workspace",
-	Long:  `Delete terraform cloud workspace from organsiation`,
+	Use:     "delete",
+	Aliases: []string{"rm"},
+	Short:   "Delete terraform workspace",
+	Long:    `Delete terraform cloud workspace from organsiation`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tfcrud.DeleteWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(), cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
 	},

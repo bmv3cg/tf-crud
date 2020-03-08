@@ -78,5 +78,5 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 
 		fmt.Printf("|%-14s|%20s|\n", ws.Name, ws.ID)
 	}
-
+	fmt.Println(" -----------------------------------")
 }
