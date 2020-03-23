@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/gosuri/uitable"
 	"github.com/hashicorp/go-tfe"
 )
 
@@ -65,18 +66,33 @@ func DeleteWorkspaceID(ctx context.Context, TfeDelWS string, Tfclient *tfe.Clien
 // ListWorkspace is a fucntion to list worksapce name and workpsace ID in a table
 func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 
+	type saveWs struct {
+		WsName string
+		WsID   string
+	}
+	WsList := make([]saveWs, 0)
+
 	wl, err := Tfclient.Workspaces.List(ctx, TfeOrg, tfe.WorkspaceListOptions{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(" -----------------------------------")
-	fmt.Printf("|%12s|%-20s|\n", "Workspace name", "Workspace ID")
-	fmt.Println(" -----------------------------------")
-
 	for _, ws := range wl.Items {
+		WsList = append(WsList, saveWs{WsName: ws.Name, WsID: ws.ID})
 
-		fmt.Printf("|%-14s|%20s|\n", ws.Name, ws.ID)
 	}
-	fmt.Println(" -----------------------------------")
+	table := uitable.New()
+	table.MaxColWidth = 80
+	table.Wrap = true
+	table.Separator = "|"
+
+	table.AddRow("", "-------------------------------", "-------------------------------", "")
+	table.AddRow("", "Workspace Name", "Workspace ID", "")
+	table.AddRow("", "-------------------------------", "-------------------------------", "")
+	for _, WsList := range WsList {
+
+		table.AddRow("", WsList.WsName, WsList.WsID, "")
+	}
+	table.AddRow("", "-------------------------------", "-------------------------------", "")
+	fmt.Println(table)
 }

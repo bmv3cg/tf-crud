@@ -28,13 +28,14 @@ var createCmd = &cobra.Command{
 	Short:   "Create Terraform cloud workspace",
 	Long:    `Creates Terraform workspace in an organsiation`,
 	Run: func(cmd *cobra.Command, args []string) {
-		tfcrud.CreateWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(), cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
+		tfcrud.CreateWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(),
+			cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(createCmd)
-	cobra.MarkPersistentFlagRequired("wsname")
+	rootCmd.MarkPersistentFlagRequired("wsname")
 
 	// Here you will define your flags and configuration settings.
 
