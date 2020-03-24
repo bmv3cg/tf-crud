@@ -31,7 +31,6 @@ func GetWorkspaceID(ctx context.Context, TfeWS string, TfeOrg string, Tfclient *
 // CreateWorkspace is a funciton to create a workspace in an organisation.
 func CreateWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfclient *tfe.Client) {
 
-	//Create workspace
 	_, err := Tfclient.Workspaces.Create(ctx, TfeOrg, tfe.WorkspaceCreateOptions{
 		Name: tfe.String(TfeWsName),
 	})
@@ -70,6 +69,7 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 		WsName string
 		WsID   string
 	}
+
 	WsList := make([]saveWs, 0)
 
 	wl, err := Tfclient.Workspaces.List(ctx, TfeOrg, tfe.WorkspaceListOptions{})
@@ -79,8 +79,8 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 
 	for _, ws := range wl.Items {
 		WsList = append(WsList, saveWs{WsName: ws.Name, WsID: ws.ID})
-
 	}
+
 	table := uitable.New()
 	table.MaxColWidth = 80
 	table.Wrap = true
@@ -90,7 +90,6 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 	table.AddRow("", "Workspace Name", "Workspace ID", "")
 	table.AddRow("", "-------------------------------", "-------------------------------", "")
 	for _, WsList := range WsList {
-
 		table.AddRow("", WsList.WsName, WsList.WsID, "")
 	}
 	table.AddRow("", "-------------------------------", "-------------------------------", "")
