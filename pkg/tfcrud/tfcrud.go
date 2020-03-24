@@ -37,7 +37,7 @@ func CreateWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Created workpspace", TfeWsName)
+	fmt.Println("Created workspace", TfeWsName)
 }
 
 // DeleteWorkspace is a fucntion to delete workspace in an organisation.
@@ -48,7 +48,7 @@ func DeleteWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Deleted workpspace", TfeWsName)
+	fmt.Println("Deleted workspace", TfeWsName)
 }
 
 // DeleteWorkspaceID is a fucntion to delete a workspace with workspace ID
