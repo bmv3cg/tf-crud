@@ -70,6 +70,7 @@ func init() {
 	rootCmd.MarkFlagRequired("wsname")
 	rootCmd.PersistentFlags().StringVar(&organisation, "organisation", "organisation", "Organisation name (required)")
 	rootCmd.MarkPersistentFlagRequired("organisation")
+
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -88,7 +89,13 @@ func initConfig() {
 		// Search config in home directory with name ".tf-crud" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".tf-crud")
+		viper.SetConfigType("yaml")
+
+		viper.BindPFlag("wsname", rootCmd.Flags().Lookup("wsname"))
+		viper.BindPFlag("organisation", rootCmd.Flags().Lookup("organisation"))
 	}
+
+	//viper.BindFlagValue("wsname", rootCmd.PersistentFlags().Lookup("wsname"))
 
 	viper.AutomaticEnv() // read in environment variables that match
 
