@@ -20,6 +20,7 @@ import (
 	"github.com/bmv3cg/tf-crud/pkg/tfcrud"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // listCmd represents the list command
@@ -29,7 +30,7 @@ var listCmd = &cobra.Command{
 	Short:   "list all workspace and workspace ID",
 	Long:    `List all workspace in a Terraform cloud account with workspace name and workspace ID`,
 	Run: func(cmd *cobra.Command, args []string) {
-		tfcrud.ListWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
+		tfcrud.ListWorkspace(tfclient.Ctx, viper.GetString("organisation"), tfclient.Tfclient)
 	},
 }
 

@@ -49,6 +49,8 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
+	fmt.Println(cfgFile)
 }
 
 func init() {
@@ -67,9 +69,11 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().StringVar(&wsname, "wsname", "", "workspace name (required)")
-	rootCmd.MarkFlagRequired("wsname")
+	//rootCmd.PersistentFlags().StringVar(&cfgFile, "wsname", "", "workspace name (required)")
+	//	rootCmd.MarkFlagRequired("wsname")
 	rootCmd.PersistentFlags().StringVar(&organisation, "organisation", "organisation", "Organisation name (required)")
-	rootCmd.MarkPersistentFlagRequired("organisation")
+	//rootCmd.PersistentFlags().StringVar(&cfgFile, "organisation", "organisation", "Organisation name (required)")
+	//	rootCmd.MarkPersistentFlagRequired("organisation")
 
 }
 
@@ -90,13 +94,9 @@ func initConfig() {
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".tf-crud")
 		viper.SetConfigType("yaml")
-
 		viper.BindPFlag("wsname", rootCmd.Flags().Lookup("wsname"))
 		viper.BindPFlag("organisation", rootCmd.Flags().Lookup("organisation"))
 	}
-
-	//viper.BindFlagValue("wsname", rootCmd.PersistentFlags().Lookup("wsname"))
-
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.

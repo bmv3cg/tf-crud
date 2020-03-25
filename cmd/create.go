@@ -19,6 +19,7 @@ import (
 	"github.com/bmv3cg/tf-crud/pkg/tfclient"
 	"github.com/bmv3cg/tf-crud/pkg/tfcrud"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // createCmd represents the create command
@@ -28,14 +29,15 @@ var createCmd = &cobra.Command{
 	Short:   "Create Terraform cloud workspace",
 	Long:    `Creates Terraform workspace in an organsiation`,
 	Run: func(cmd *cobra.Command, args []string) {
-		tfcrud.CreateWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(),
-			cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
+		//tfcrud.CreateWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(),
+		//	cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
+		tfcrud.CreateWorkspace(tfclient.Ctx, viper.GetString("wsname"), viper.GetString("organisation"), tfclient.Tfclient)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(createCmd)
-	rootCmd.MarkPersistentFlagRequired("wsname")
+	//rootCmd.MarkPersistentFlagRequired("wsname")
 
 	// Here you will define your flags and configuration settings.
 

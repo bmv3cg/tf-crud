@@ -96,12 +96,12 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 	table.Wrap = true
 	table.Separator = "|"
 
-	table.AddRow("", "-------------------------------", "-------------------------------", "")
+	table.AddRow("", "---------------------", "----------------------", "")
 	table.AddRow("", "Workspace Name", "Workspace ID", "")
-	table.AddRow("", "-------------------------------", "-------------------------------", "")
+	table.AddRow("", "---------------------", "----------------------", "")
 	for _, WsList := range WsList {
 		table.AddRow("", WsList.WsName, WsList.WsID, "")
 	}
-	table.AddRow("", "-------------------------------", "-------------------------------", "")
+	table.AddRow("", "---------------------", "----------------------", "")
 	fmt.Println(table)
 }
