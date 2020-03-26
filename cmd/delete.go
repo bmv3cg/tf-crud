@@ -19,6 +19,7 @@ import (
 	"github.com/bmv3cg/tf-crud/pkg/tfclient"
 	"github.com/bmv3cg/tf-crud/pkg/tfcrud"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // deleteCmd represents the delete command
@@ -28,8 +29,7 @@ var deleteCmd = &cobra.Command{
 	Short:   "Delete terraform workspace",
 	Long:    `Delete terraform cloud workspace from organsiation`,
 	Run: func(cmd *cobra.Command, args []string) {
-		tfcrud.DeleteWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(),
-			cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
+		tfcrud.DeleteWorkspace(tfclient.Ctx, viper.GetString("wsname"), viper.GetString("organisation"), tfclient.Tfclient)
 	},
 }
 
