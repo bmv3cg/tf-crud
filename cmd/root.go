@@ -16,27 +16,26 @@ limitations under the License.
 package cmd
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
+	"k8s.io/klog"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
 
 var cfgFile string
+var verbosity int
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "tf-crud",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "A CLI tool to run CRUD operarion in Terraform cloud",
+	Long: `A CLI tool for managing workspace creation, deletion, listing and managing 
+	in Terraform cloud and Terraform enterprise`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
@@ -49,27 +48,35 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	klog.V(2).Info("Using config file:", cfgFile)
 }
 
 func init() {
 
 	var wsname string
 	var organisation string
+
 	cobra.OnInitialize(initConfig)
+	klog.InitFlags(nil)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
+	// Logging flags
+	rootCmd.PersistentFlags().AddGoFlag(flag.CommandLine.Lookup("v"))
+	rootCmd.PersistentFlags().AddGoFlag(flag.CommandLine.Lookup("logtostderr"))
+	rootCmd.PersistentFlags().Set("logtostderr", "true")
+	//rootCmd.PersistentFlags().Set("v", "2")
+	// Config flags
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tf-crud.yaml)")
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
+	//TFE crud flags
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().StringVar(&wsname, "wsname", "", "workspace name (required)")
-	rootCmd.MarkFlagRequired("wsname")
 	rootCmd.PersistentFlags().StringVar(&organisation, "organisation", "organisation", "Organisation name (required)")
-	rootCmd.MarkPersistentFlagRequired("organisation")
+
+	defer klog.Flush()
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -88,12 +95,17 @@ func initConfig() {
 		// Search config in home directory with name ".tf-crud" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".tf-crud")
+		viper.SetConfigType("yaml")
+		viper.BindPFlag("wsname", rootCmd.Flags().Lookup("wsname"))
+		viper.BindPFlag("organisation", rootCmd.Flags().Lookup("organisation"))
+		rootCmd.MarkPersistentFlagRequired("organisation")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		klog.V(2).Infoln("Using config file", viper.ConfigFileUsed())
 	}
+
 }
