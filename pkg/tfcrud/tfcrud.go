@@ -30,7 +30,7 @@ func GetWorkspaceID(ctx context.Context, TfeWS string, TfeOrg string, Tfclient *
 	return ""
 }
 
-// CreateWorkspace is a funciton to create a workspace in an organisation.
+// CreateWorkspace is a function to create a workspace in an organisation.
 func CreateWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfclient *tfe.Client) {
 
 	wsname := viper.GetString("wsname")
@@ -50,7 +50,7 @@ func CreateWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 	klog.Info("Created workspace", TfeWsName)
 }
 
-// DeleteWorkspace is a fucntion to delete workspace in an organisation.
+// DeleteWorkspace is a function to delete workspace in an organisation.
 func DeleteWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfclient *tfe.Client) {
 
 	//Delete  workspace
@@ -61,7 +61,7 @@ func DeleteWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 	klog.Info("Deleted workspace", TfeWsName)
 }
 
-// DeleteWorkspaceID is a fucntion to delete a workspace with workspace ID
+// DeleteWorkspaceID is a function to delete a workspace with workspace ID
 func DeleteWorkspaceID(ctx context.Context, TfeDelWS string, Tfclient *tfe.Client) string {
 
 	//Create workspace
@@ -72,7 +72,7 @@ func DeleteWorkspaceID(ctx context.Context, TfeDelWS string, Tfclient *tfe.Clien
 	return "Workspace Deleted"
 }
 
-// ListWorkspace is a fucntion to list worksapce name and workpsace ID in a table
+// ListWorkspace is a function to list worksapce name and workpsace ID in a table
 func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 
 	type saveWs struct {

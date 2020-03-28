@@ -1,4 +1,4 @@
-/*
+/* Package cmd
 Copyright © 2020 NAME HERE <EMAIL ADDRESS>
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ var deleteCmd = &cobra.Command{
 	Use:     "delete",
 	Aliases: []string{"rm"},
 	Short:   "Delete terraform workspace",
-	Long:    `Delete terraform cloud workspace from organsiation`,
+	Long:    `Delete terraform cloud workspace from organisation`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tfcrud.DeleteWorkspace(tfclient.Ctx, viper.GetString("wsname"), viper.GetString("organisation"), tfclient.Tfclient)
 	},

@@ -1,4 +1,5 @@
 /*
+Package cmd
 Copyright © 2020 NAME HERE <EMAIL ADDRESS>
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ var createCmd = &cobra.Command{
 	Use:     "create",
 	Aliases: []string{"mk"},
 	Short:   "Create Terraform cloud workspace",
-	Long:    `Creates Terraform workspace in an organsiation`,
+	Long:    `Creates Terraform workspace in an organisation`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//tfcrud.CreateWorkspace(tfclient.Ctx, cmd.InheritedFlags().Lookup("wsname").Value.String(),
 		//	cmd.InheritedFlags().Lookup("organisation").Value.String(), tfclient.Tfclient)
