@@ -2,32 +2,40 @@ package tfclient
 
 import (
 	"context"
-	"log"
+	"os"
 
 	"github.com/hashicorp/go-tfe"
+	"k8s.io/klog"
 )
 
+// Ctx for managing TFE client connections
 var Ctx = context.Background()
 
+// Tfclient instance
 var Tfclient *tfe.Client
 
 func init() {
 	Tfclient = TfeClient()
 }
 
+// TfeClient singleton instance for creating client
 func TfeClient() *tfe.Client {
+
+	if os.Getenv("TFE_TOKEN") == "" {
+		klog.Error("TFe token not found in env variable")
+	}
 
 	//Move token and host to env checks
 	config := &tfe.Config{}
 
 	Tfclient, err := tfe.NewClient(config)
 	if err != nil {
-		log.Print("cant make client")
-		log.Print(config)
-		log.Fatal(err)
+		klog.Error("cant make client")
+		klog.Info(config)
+		klog.Fatal(err)
 	}
-	//commenting for now, will be moving to debug log level
-	//log.Println("tfe client intailised")
+
+	klog.V(2).Info("tfe client intailised")
 
 	return Tfclient
 }
