@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/bmv3cg/tf-crud)](https://goreportcard.com/report/github.com/bmv3cg/tf-crud)
+
 Tfc-Workspace-manager
 =====================
 
