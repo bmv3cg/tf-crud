@@ -69,7 +69,7 @@ func init() {
 	rootCmd.PersistentFlags().Set("logtostderr", "true")
 	//rootCmd.PersistentFlags().Set("v", "2")
 	// Config flags
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tf-crud.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tfe-ws-manager-config.yaml)")
 
 	//TFE crud flags
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")

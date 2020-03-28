@@ -1,6 +1,6 @@
 GOCMD=go
 GOBUILD=$(GOCMD) build
-BINARY_NAME=tfe-ws-manager
+BINARY_NAME=tfc-ws-manager
 BINARY_UNIX=$(BINARY_NAME)_unix
 
 build: 
