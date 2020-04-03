@@ -5,6 +5,16 @@ Tfc-Workspace-manager
 
 TFC-Workspace-manager is a command line utility to create, delete, list and update workspaces in [Terraform cloud](http://app.terraform.io). TFC-Workspace-manager is written in Go lang. This uses cobra for CLI commands and viper for configuration  file management.
 
+Instalaltion
+------------
+
+You can intall this tool using homebrew by adding a tap. Once tap is configured you can use the brew install command to install the binary.
+
+```bash
+brew install    bmv3cg/tap/tfc 
+brew tap bmv3cg/homebrew-tap
+```
+
 Pre-requistes
 -------------
 
