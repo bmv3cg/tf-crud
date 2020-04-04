@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/bmv3cg/tf-crud/pkg/tfclient"
 	"github.com/gosuri/uitable"
@@ -103,5 +104,33 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 		table.AddRow("", WsList.WsName, WsList.WsID, "")
 	}
 	table.AddRow("", "---------------------", "----------------------", "")
+	fmt.Println(table)
+}
+
+func SortWorkspace(ctx context.Context, TfeOrg string, delta int, Tfclient *tfe.Client) {
+
+	wl, err := Tfclient.Workspaces.List(ctx, TfeOrg, tfe.WorkspaceListOptions{})
+	if err != nil {
+		klog.Fatal(err)
+	}
+
+	loc, _ := time.LoadLocation("UTC")
+	createdAt := time.Now().In(loc).AddDate(0, 0, -delta)
+
+	table := uitable.New()
+	table.MaxColWidth = 80
+	table.Wrap = true
+	table.Separator = "|"
+
+	table.AddRow("", "---------------------", "---------------------------------", "")
+	table.AddRow("", "Workspace Name", "Creation time", "")
+	table.AddRow("", "---------------------", "---------------------------------", "")
+	for _, ws := range wl.Items {
+		if ws.CreatedAt.Before(createdAt) {
+			table.AddRow("", ws.Name, ws.CreatedAt, "")
+
+		}
+	}
+	table.AddRow("", "---------------------", "---------------------------------", "")
 	fmt.Println(table)
 }

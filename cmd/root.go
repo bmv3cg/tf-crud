@@ -67,7 +67,7 @@ func init() {
 	rootCmd.PersistentFlags().AddGoFlag(flag.CommandLine.Lookup("v"))
 	rootCmd.PersistentFlags().AddGoFlag(flag.CommandLine.Lookup("logtostderr"))
 	rootCmd.PersistentFlags().Set("logtostderr", "true")
-	//rootCmd.PersistentFlags().Set("v", "2")
+
 	// Config flags
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tfe-ws-manager-config.yaml)")
 
@@ -75,6 +75,7 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().StringVar(&wsname, "wsname", "", "workspace name (required)")
 	rootCmd.PersistentFlags().StringVar(&organisation, "organisation", "organisation", "Organisation name (required)")
+	rootCmd.PersistentFlags().IntVar(&delta, "delta", 0, "List workspace older than delta")
 
 	defer klog.Flush()
 }
@@ -98,6 +99,7 @@ func initConfig() {
 		viper.SetConfigType("yaml")
 		viper.BindPFlag("wsname", rootCmd.Flags().Lookup("wsname"))
 		viper.BindPFlag("organisation", rootCmd.Flags().Lookup("organisation"))
+		viper.BindPFlag("delta", rootCmd.Flags().Lookup("delta"))
 		rootCmd.MarkPersistentFlagRequired("organisation")
 	}
 
