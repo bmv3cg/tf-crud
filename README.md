@@ -3,22 +3,22 @@
 Tfc-Workspace-manager
 =====================
 
-TFC-Workspace-manager is a command line utility to create, delete, list and update workspaces in [Terraform cloud](http://app.terraform.io). TFC-Workspace-manager is written in Go lang. This uses cobra for CLI commands and viper for configuration  file management.
+Terrafrom cloud workspace manager is a command line utility to create, delete, list and update workspaces in [Terraform cloud](http://app.terraform.io). Tfc workspace manager is written in Go lang and uses Hashicrop's go-tfe SDK for managing Terraform cloud workspaces.
 
 Installation
 ------------
 
-You can intall tfc workspace manager using homebrew by adding a tap. Once tap is configured you can use the brew install command to install the binary.
+You can intall tfc workspace manager using homebrew by adding this [tap](bmv3cg/homebrew-tap). Once tap is configured you can use the brew install command to install the binary.
 
 ```bash
-brew install bmv3cg/tap/tfc 
 brew tap bmv3cg/homebrew-tap
+brew install bmv3cg/tap/tfc 
 ```
 
 Pre-requistes
 -------------
 
-Terraform cloud token is used for authentciating with Terraform cloud account. You can export Terraform token as environment variable to manage workspaces using the following command.
+Terraform cloud API token is requried for authentciating with Terraform cloud account. You can follow the steps in this [link](https://www.terraform.io/docs/cloud/users-teams-organizations/api-tokens.html#team-api-tokens) to create a token. You can export Terraform token as environment variable to manage workspaces using the following command.
 
 ```bash 
 export TFE_TOKEN="Replace with Terraform cloud token"
@@ -27,12 +27,12 @@ export TFE_TOKEN="Replace with Terraform cloud token"
 Tfc-Workspace-manager Configuration
 -----------------------------------
 
-TfC workspace manger supports configuration either using configuration file or using command line arguments passed through.
+TfC workspace manager supports configuration either using configuration file or using command line arguments passed as flags.
 
-1. TFC-ws-manager configuration uing configuration file
--------------------------------------------------------
+1. TFC-ws-manager configuration using configuration file
+--------------------------------------------------------
 
-Terraform workspace manager can be configured using and config file. You can see a sample of config file [here](examples/configuration/tfe-ws-manager-config.yaml)
+Terraform workspace manager can be configured using a config file. You can see a sample of config file [here](examples/configuration/tfe-ws-manager-config.yaml)
 
 
 2. TFC-ws-manager configuration using command arguments
@@ -51,47 +51,45 @@ Create workspace
 
 You can create a Terraform cloud workspace using the following commands. 
 
-
 1. Using config file and create command
 
 ```bash
-tfe-ws-manager create   --config ~/.tf-crud.yaml
+tfe-ws-manager create --config ~/.tfe-ws-manager-config.yaml
 ```
 
 2. Using config file and command alias
 
 ```bash
-tfe-ws-manager mk --config ~/.tf-crud.yaml
+tfe-ws-manager mk --config ~/.tfe-ws-manager-config.yaml
 ```
 
 3. Using command line arguments 
 
 ```bash
-tfe-ws-manager mk   --organisation aexp --wsname ws 
+tfe-ws-manager mk --organisation aexp --wsname ws 
 ```
 
 Delete workspace
 ----------------
 
-You can delete a Terraform cloud workspace using the following commands. 
-
+You can delete a Terraform cloud workspace using the following commands.  
 
 1. Using config file and delete command 
 
 ```bash
-tfe-ws-manager delete   --config ~/.tf-crud.yaml
+tfe-ws-manager delete --config ~/.tfe-ws-manager-config.yaml
 ```
 
 2. Using config file and command alias
 
 ```bash
-tfe-ws-manager rm   --config ~/.tf-crud.yaml
+tfe-ws-manager rm --config ~/.tfe-ws-manager-config.yaml
 ```
 
 3. Using command line arguments 
 
 ```bash 
-tfe-ws-manager rm   --organisation aexp --wsname ws 
+tfe-ws-manager rm --organisation aexp --wsname ws 
 ```
 
 List workspace
@@ -102,13 +100,13 @@ You can list all Terraform cloud workspace in an organisation using the followin
 1. Using config file and list command 
 
 ```bash
-tfe-ws-manager list  --organisation aexp
+tfe-ws-manager list --config ~/.tfe-ws-manager-config.yaml
 ```
 
 2. Using config file and command alias
 
 ```bash
-tfe-ws-manager ls --config ~/.tf-crud.yaml
+tfe-ws-manager ls --config ~/.tfe-ws-manager-config.yaml
 ```
 
 3. Using command line arguments 
@@ -117,11 +115,32 @@ tfe-ws-manager ls --config ~/.tf-crud.yaml
 tfe-ws-manager ls  --organisation aexp
 ```
 
+Sort workspace
+--------------
+
+1. Using config file and sort command 
+
+```bash
+tfe-ws-manager sort --config ~/.tfe-ws-manager-config.yaml
+```
+
+2. Using config file and command alias
+
+```bash
+tfe-ws-manager sort --config ~/.tfe-ws-manager-config.yaml
+```
+
+3. Using command line arguments 
+
+```bash
+tfe-ws-manager sort --organisation aexp
+```
+
 Log level
 ---------
 
 You can pass the log level variable for enabling detailed logs.
 
 ```bash
-tfe-ws-manager ls --config ~/.tf-crud.yaml -v 2
+tfe-ws-manager ls --config ~/.tfe-ws-manager-config.yaml -v 2
 ```
