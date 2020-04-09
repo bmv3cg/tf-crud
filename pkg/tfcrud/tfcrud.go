@@ -105,3 +105,14 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 	table.AddRow("", "---------------------", "----------------------", "")
 	fmt.Println(table)
 }
+
+func listConfig(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
+
+	options := tfe.ConfigurationVersionListOptions{}
+
+	cvl, err := Tfclient.ConfigurationVersions.List(ctx, "ws-oKStn4taCNqykswX", options)
+	if err != nil {
+		klog.Fatal(err)
+	}
+	fmt.Println(cvl)
+}
