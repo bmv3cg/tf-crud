@@ -54,7 +54,6 @@ func Execute() {
 func init() {
 
 	var wsname string
-	var organisation string
 
 	cobra.OnInitialize(initConfig)
 	klog.InitFlags(nil)
@@ -74,8 +73,6 @@ func init() {
 	//TFE crud flags
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().StringVar(&wsname, "wsname", "", "workspace name (required)")
-	rootCmd.PersistentFlags().StringVar(&organisation, "organisation", "organisation", "Organisation name (required)")
-	//rootCmd.PersistentFlags().IntVar(&delta, "delta", 0, "List workspace older than delta")
 
 	defer klog.Flush()
 }
@@ -93,16 +90,16 @@ func initConfig() {
 			os.Exit(1)
 		}
 
+		viper.AutomaticEnv()
+
 		// Search config in home directory with name ".tf-crud" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".tf-crud")
 		viper.SetConfigType("yaml")
 		viper.BindPFlag("wsname", rootCmd.Flags().Lookup("wsname"))
-		viper.BindPFlag("organisation", rootCmd.Flags().Lookup("organisation"))
-		viper.BindPFlag("delta", emptyWsCmd.Flags().Lookup("delta"))
-		rootCmd.MarkPersistentFlagRequired("organisation")
 	}
 
+	viper.SetEnvPrefix("TFE")
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
