@@ -5,6 +5,17 @@ Tfc-Workspace-manager
 
 Terrafrom cloud workspace manager is a command line utility to create, delete, list and update workspaces in [Terraform cloud](http://app.terraform.io). Tfc workspace manager is written in Go lang and uses Hashicrop's go-tfe SDK for managing Terraform cloud workspaces.
 
+Terraform cloud workspace manager provides capablity to list unused workspaces in an oragnisation and sort accordong to creation
+time which can be used for lifecycle managemnt of workspace in an Terraform coud organisation.
+
+Currenlty supported commands. 
+
+- Create workspace
+- Delete workspace
+- List all workspaces
+- List unused workspaces
+
+
 Installation
 ------------
 
@@ -66,7 +77,7 @@ tfe-ws-manager mk --config ~/.tfe-ws-manager-config.yaml
 3. Using command line arguments 
 
 ```bash
-tfe-ws-manager mk --organisation aexp --wsname ws 
+tfe-ws-manager mk --organisation test --wsname ws 
 ```
 
 Delete workspace
@@ -89,7 +100,7 @@ tfe-ws-manager rm --config ~/.tfe-ws-manager-config.yaml
 3. Using command line arguments 
 
 ```bash 
-tfe-ws-manager rm --organisation aexp --wsname ws 
+tfe-ws-manager rm --organisation test --wsname ws 
 ```
 
 List workspace
@@ -112,28 +123,30 @@ tfe-ws-manager ls --config ~/.tfe-ws-manager-config.yaml
 3. Using command line arguments 
 
 ```bash
-tfe-ws-manager ls  --organisation aexp
+tfe-ws-manager ls  --organisation test
 ```
 
-Sort workspace
---------------
+List unused workspace
+---------------------
+
+List unused workspace sorts all Terraform workspaces in an organisation, filters according to date of creation and show only unused workspaces in organsition. By default all unused workspaces will be listed by using command emptyws. Sorting can be enabled using the delta flag to sort the workspaces accoding to creation time. 
 
 1. Using config file and sort command 
 
 ```bash
-tfe-ws-manager sort --config ~/.tfe-ws-manager-config.yaml
+tfe-ws-manager emptyws --config ~/.tfe-ws-manager-config.yaml
 ```
 
 2. Using config file and command alias
 
 ```bash
-tfe-ws-manager sort --config ~/.tfe-ws-manager-config.yaml
+tfe-ws-manager ews --organisation test --delta 20
 ```
 
 3. Using command line arguments 
 
 ```bash
-tfe-ws-manager sort --organisation aexp
+tfe-ws-manager emptyws --organisation test --delta 20
 ```
 
 Log level

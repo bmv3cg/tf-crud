@@ -22,7 +22,8 @@ func init() {
 func TfeClient() *tfe.Client {
 
 	if os.Getenv("TFE_TOKEN") == "" {
-		klog.Error("TFe token not found in env variable")
+		klog.Error("Terraform cloud token not found in env variable")
+		os.Exit(2)
 	}
 
 	//Move token and host to env checks

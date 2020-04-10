@@ -75,7 +75,7 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().StringVar(&wsname, "wsname", "", "workspace name (required)")
 	rootCmd.PersistentFlags().StringVar(&organisation, "organisation", "organisation", "Organisation name (required)")
-	rootCmd.PersistentFlags().IntVar(&delta, "delta", 0, "List workspace older than delta")
+	//rootCmd.PersistentFlags().IntVar(&delta, "delta", 0, "List workspace older than delta")
 
 	defer klog.Flush()
 }
@@ -99,7 +99,7 @@ func initConfig() {
 		viper.SetConfigType("yaml")
 		viper.BindPFlag("wsname", rootCmd.Flags().Lookup("wsname"))
 		viper.BindPFlag("organisation", rootCmd.Flags().Lookup("organisation"))
-		viper.BindPFlag("delta", rootCmd.Flags().Lookup("delta"))
+		viper.BindPFlag("delta", emptyWsCmd.Flags().Lookup("delta"))
 		rootCmd.MarkPersistentFlagRequired("organisation")
 	}
 
