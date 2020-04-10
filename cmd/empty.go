@@ -24,10 +24,11 @@ import (
 
 var delta int
 
-// sortCmd represents the sort command
-var sortCmd = &cobra.Command{
-	Use:   "sort",
-	Short: "A brief description of your command",
+// emptyWsCmd represents the sort command
+var emptyWsCmd = &cobra.Command{
+	Use:     "emptyws",
+	Aliases: []string{"ews"},
+	Short:   "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
@@ -40,7 +41,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(sortCmd)
+	rootCmd.AddCommand(emptyWsCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -48,5 +49,6 @@ func init() {
 	// and all subcommands, e.g.:
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// sortCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	emptyWsCmd.Flags().IntVar(&delta, "delta", 0, "List workspace older than delta")
+
 }

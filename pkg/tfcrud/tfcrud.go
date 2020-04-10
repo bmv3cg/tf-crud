@@ -6,10 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/bmv3cg/tf-crud/pkg/tfclient"
 	"github.com/gosuri/uitable"
 	"github.com/hashicorp/go-tfe"
-	"github.com/spf13/viper"
 	"k8s.io/klog"
 )
 
@@ -34,11 +32,9 @@ func GetWorkspaceID(ctx context.Context, TfeWS string, TfeOrg string, Tfclient *
 // CreateWorkspace is a function to create a workspace in an organisation.
 func CreateWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfclient *tfe.Client) {
 
-	wsname := viper.GetString("wsname")
-	org := viper.GetString("organisation")
-	ws := GetWorkspaceID(tfclient.Ctx, wsname, org, tfclient.Tfclient)
+	ws := GetWorkspaceID(ctx, TfeWsName, TfeOrg, Tfclient)
 	if ws != "" {
-		klog.Fatalf("Workspace %s already exists \n", wsname)
+		klog.Fatalf("Workspace %s already exists \n", TfeWsName)
 		os.Exit(1)
 	}
 
@@ -53,8 +49,6 @@ func CreateWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 
 // DeleteWorkspace is a function to delete workspace in an organisation.
 func DeleteWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfclient *tfe.Client) {
-
-	//Delete  workspace
 	err := Tfclient.Workspaces.Delete(ctx, TfeOrg, TfeWsName)
 	if err != nil {
 		klog.Fatal(err)
@@ -65,7 +59,6 @@ func DeleteWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 // DeleteWorkspaceID is a function to delete a workspace with workspace ID
 func DeleteWorkspaceID(ctx context.Context, TfeDelWS string, Tfclient *tfe.Client) string {
 
-	//Create workspace
 	err := Tfclient.Workspaces.DeleteByID(ctx, TfeDelWS)
 	if err != nil {
 		klog.Fatal(err)
@@ -73,7 +66,7 @@ func DeleteWorkspaceID(ctx context.Context, TfeDelWS string, Tfclient *tfe.Clien
 	return "Workspace Deleted"
 }
 
-// ListWorkspace is a function to list worksapce name and workpsace ID in a table
+// ListWorkspace is a function to list worksapce name and workpsace ID in a tablular format
 func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 
 	type saveWs struct {
@@ -107,13 +100,16 @@ func ListWorkspace(ctx context.Context, TfeOrg string, Tfclient *tfe.Client) {
 	fmt.Println(table)
 }
 
+/*
+SortWorkspace function sorts workspaces according to created time and list un-used
+workspaces acoording to creation date of workspace.
+*/
 func SortWorkspace(ctx context.Context, TfeOrg string, delta int, Tfclient *tfe.Client) {
 
 	wl, err := Tfclient.Workspaces.List(ctx, TfeOrg, tfe.WorkspaceListOptions{})
 	if err != nil {
 		klog.Fatal(err)
 	}
-
 	loc, _ := time.LoadLocation("UTC")
 	createdAt := time.Now().In(loc).AddDate(0, 0, -delta)
 
@@ -121,16 +117,35 @@ func SortWorkspace(ctx context.Context, TfeOrg string, delta int, Tfclient *tfe.
 	table.MaxColWidth = 80
 	table.Wrap = true
 	table.Separator = "|"
-
 	table.AddRow("", "---------------------", "---------------------------------", "")
 	table.AddRow("", "Workspace Name", "Creation time", "")
 	table.AddRow("", "---------------------", "---------------------------------", "")
 	for _, ws := range wl.Items {
-		if ws.CreatedAt.Before(createdAt) {
+		if ws.CreatedAt.Before(createdAt) && listConfig(ctx, ws.ID, Tfclient) == true {
 			table.AddRow("", ws.Name, ws.CreatedAt, "")
 
 		}
 	}
 	table.AddRow("", "---------------------", "---------------------------------", "")
 	fmt.Println(table)
+}
+
+/*
+listConfig function checks wheteher a configuration version exists for a workspace.
+For unused workspace there will be no existing configuration version
+For used workspaces there wil be multiple configuration versions.
+*/
+func listConfig(ctx context.Context, tfeWsID string, Tfclient *tfe.Client) (wsUsage bool) {
+
+	options := tfe.ConfigurationVersionListOptions{}
+	cvl, err := Tfclient.ConfigurationVersions.List(ctx, tfeWsID, options)
+	if err != nil {
+		klog.Fatal(err)
+	}
+
+	if cvl.TotalCount == 0 {
+		return true
+	}
+
+	return false
 }
