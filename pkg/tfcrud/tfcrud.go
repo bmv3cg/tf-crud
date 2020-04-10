@@ -44,7 +44,7 @@ func CreateWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 	if err != nil {
 		klog.Fatal(err)
 	}
-	klog.Info("Created workspace", TfeWsName)
+	klog.Info("Created workspace ", TfeWsName)
 }
 
 // DeleteWorkspace is a function to delete workspace in an organisation.

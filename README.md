@@ -29,125 +29,19 @@ brew install bmv3cg/tap/tfc
 Pre-requistes
 -------------
 
-Terraform cloud API token is requried for authentciating with Terraform cloud account. You can follow the steps in this [link](https://www.terraform.io/docs/cloud/users-teams-organizations/api-tokens.html#team-api-tokens) to create a token. You can export Terraform token as environment variable to manage workspaces using the following command.
+Terraform cloud API token is requried for authentciating with Terraform cloud account. You can follow the steps in this [link](https://www.terraform.io/docs/cloud/users-teams-organizations/api-tokens.html#team-api-tokens) to create a token. You can export Terraform token as environment variable and Terraform cloud organsiation to manage workspaces using the following commands. 
 
 ```bash 
 export TFE_TOKEN="Replace with Terraform cloud token"
+export TFE_ORGANISATION="Replace with organisation"
 ```
 
-Tfc-Workspace-manager Configuration
------------------------------------
+Tfc-Workspace-manager commands
+------------------------------
 
-TfC workspace manager supports configuration either using configuration file or using command line arguments passed as flags.
+TfC workspace manager supports configuration can be seen in this demo. 
 
-1. TFC-ws-manager configuration using configuration file
---------------------------------------------------------
-
-Terraform workspace manager can be configured using a config file. You can see a sample of config file [here](examples/configuration/tfe-ws-manager-config.yaml)
-
-
-2. TFC-ws-manager configuration using command arguments
--------------------------------------------------------
-
-Terraform cloud can be configured by passing following command line arguments.
-
-| Argument      | Description                                                 |  
-|---------------|-------------------------------------------------------------|
-| organisation  | Organisation in which Terraform cloud workspaces are hosted |
-| wsname        | Workspace name which is to be managed                       |
-| verbosity     | Vebosity level for debugging                                |
-
-Create workspace 
-----------------
-
-You can create a Terraform cloud workspace using the following commands. 
-
-1. Using config file and create command
-
-```bash
-tfe-ws-manager create --config ~/.tfe-ws-manager-config.yaml
-```
-
-2. Using config file and command alias
-
-```bash
-tfe-ws-manager mk --config ~/.tfe-ws-manager-config.yaml
-```
-
-3. Using command line arguments 
-
-```bash
-tfe-ws-manager mk --organisation test --wsname ws 
-```
-
-Delete workspace
-----------------
-
-You can delete a Terraform cloud workspace using the following commands.  
-
-1. Using config file and delete command 
-
-```bash
-tfe-ws-manager delete --config ~/.tfe-ws-manager-config.yaml
-```
-
-2. Using config file and command alias
-
-```bash
-tfe-ws-manager rm --config ~/.tfe-ws-manager-config.yaml
-```
-
-3. Using command line arguments 
-
-```bash 
-tfe-ws-manager rm --organisation test --wsname ws 
-```
-
-List workspace
----------------
-
-You can list all Terraform cloud workspace in an organisation using the following command. This will list all workspaces along with workspace name and workspace ID in an organisation in a tabular format.
-
-1. Using config file and list command 
-
-```bash
-tfe-ws-manager list --config ~/.tfe-ws-manager-config.yaml
-```
-
-2. Using config file and command alias
-
-```bash
-tfe-ws-manager ls --config ~/.tfe-ws-manager-config.yaml
-```
-
-3. Using command line arguments 
-
-```bash
-tfe-ws-manager ls  --organisation test
-```
-
-List unused workspace
----------------------
-
-List unused workspace sorts all Terraform workspaces in an organisation, filters according to date of creation and show only unused workspaces in organsition. By default all unused workspaces will be listed by using command emptyws. Sorting can be enabled using the delta flag to sort the workspaces accoding to creation time. 
-
-1. Using config file and sort command 
-
-```bash
-tfe-ws-manager emptyws --config ~/.tfe-ws-manager-config.yaml
-```
-
-2. Using config file and command alias
-
-```bash
-tfe-ws-manager ews --organisation test --delta 20
-```
-
-3. Using command line arguments 
-
-```bash
-tfe-ws-manager emptyws --organisation test --delta 20
-```
+![](assets/tfc.gif)
 
 Log level
 ---------
