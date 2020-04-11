@@ -30,14 +30,10 @@ var emptyWsCmd = &cobra.Command{
 	Aliases: []string{"ews"},
 	Short:   "List unused Terraform workspaces",
 	Long: `List all un-used terraform workspaces in an orangansiation
-
 	Listing  all unused workspaces.
-   
 	tfc-ws-manager emptyws 
-
     Sorting according to time stamp. Workspaces can be sorted according 
     to timestamp of creation by adding the delta flag.
-   
     tfc-ws-manager emptyws ews --delta 30`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tfcrud.SortWorkspace(tfclient.Ctx, viper.GetString("organisation"), viper.GetInt("delta"), tfclient.Tfclient)
