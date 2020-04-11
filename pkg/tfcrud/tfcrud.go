@@ -53,7 +53,7 @@ func DeleteWorkspace(ctx context.Context, TfeWsName string, TfeOrg string, Tfcli
 	if err != nil {
 		klog.Fatal(err)
 	}
-	klog.Info("Deleted workspace", TfeWsName)
+	klog.Info("Deleted workspace ", TfeWsName)
 }
 
 // DeleteWorkspaceID is a function to delete a workspace with workspace ID
@@ -105,14 +105,10 @@ SortWorkspace function sorts workspaces according to created time and list un-us
 workspaces acoording to creation date of workspace.
 */
 func SortWorkspace(ctx context.Context, TfeOrg string, delta int, Tfclient *tfe.Client) {
-
 	wl, err := Tfclient.Workspaces.List(ctx, TfeOrg, tfe.WorkspaceListOptions{})
 	if err != nil {
 		klog.Fatal(err)
 	}
-	loc, _ := time.LoadLocation("UTC")
-	createdAt := time.Now().In(loc).AddDate(0, 0, -delta)
-
 	table := uitable.New()
 	table.MaxColWidth = 80
 	table.Wrap = true
@@ -121,7 +117,7 @@ func SortWorkspace(ctx context.Context, TfeOrg string, delta int, Tfclient *tfe.
 	table.AddRow("", "Workspace Name", "Creation time", "")
 	table.AddRow("", "---------------------", "---------------------------------", "")
 	for _, ws := range wl.Items {
-		if ws.CreatedAt.Before(createdAt) && listConfig(ctx, ws.ID, Tfclient) == true {
+		if createdBefore(ws, delta) == true && listConfig(ctx, ws.ID, Tfclient) == true {
 			table.AddRow("", ws.Name, ws.CreatedAt, "")
 
 		}
@@ -147,5 +143,15 @@ func listConfig(ctx context.Context, tfeWsID string, Tfclient *tfe.Client) (wsUs
 		return true
 	}
 
+	return false
+}
+
+// createdBefore function checks whether workspace is created before a particular time stamp
+func createdBefore(ws *tfe.Workspace, delta int) (timeDelta bool) {
+	loc, _ := time.LoadLocation("UTC")
+	createdAt := time.Now().In(loc).AddDate(0, 0, -delta)
+	if ws.CreatedAt.Before(createdAt) {
+		return true
+	}
 	return false
 }

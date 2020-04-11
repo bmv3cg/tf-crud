@@ -28,13 +28,17 @@ var delta int
 var emptyWsCmd = &cobra.Command{
 	Use:     "emptyws",
 	Aliases: []string{"ews"},
-	Short:   "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short:   "List unused Terraform workspaces",
+	Long: `List all un-used terraform workspaces in an orangansiation
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Listing  all unused workspaces.
+   
+	tfc-ws-manager emptyws 
+
+    Sorting according to time stamp. Workspaces can be sorted according 
+    to timestamp of creation by adding the delta flag.
+   
+    tfc-ws-manager emptyws ews --delta 30`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tfcrud.SortWorkspace(tfclient.Ctx, viper.GetString("organisation"), viper.GetInt("delta"), tfclient.Tfclient)
 	},
@@ -50,5 +54,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	emptyWsCmd.Flags().IntVar(&delta, "delta", 0, "List workspace older than delta")
-
 }

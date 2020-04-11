@@ -32,9 +32,9 @@ var verbosity int
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "tf-crud",
-	Short: "A CLI tool to run CRUD operarion in Terraform cloud",
-	Long: `A CLI tool for managing workspace creation, deletion, listing and managing 
+	Use:   "tfc-ws-manager",
+	Short: "A CLI tool to manage workspaces in Terraform cloud",
+	Long: `A CLI tool for managing workspace creation, deletion, lifecycle management 
 	in Terraform cloud and Terraform enterprise`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -97,6 +97,7 @@ func initConfig() {
 		viper.SetConfigName(".tf-crud")
 		viper.SetConfigType("yaml")
 		viper.BindPFlag("wsname", rootCmd.Flags().Lookup("wsname"))
+		viper.BindPFlag("delta", emptyWsCmd.Flags().Lookup("delta"))
 	}
 
 	viper.SetEnvPrefix("TFE")
