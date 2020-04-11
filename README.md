@@ -5,8 +5,7 @@ Tfc-Workspace-manager
 
 Terrafrom cloud workspace manager is a command line utility to create, delete, list and update workspaces in [Terraform cloud](http://app.terraform.io). Tfc workspace manager is written in Go lang and uses Hashicrop's go-tfe SDK for managing Terraform cloud workspaces.
 
-Terraform cloud workspace manager provides capablity to list unused workspaces in an oragnisation and sort accordong to creation
-time which can be used for lifecycle managemnt of workspace in an Terraform coud organisation.
+Terraform cloud workspace manager provides capablity to manage lifecycle of terrafrom workspaces. You can list all unused workspaces in an oragnisation and sort workspaces according to creation time. Empty workspace list can be ran as a cron job daily to monitor usage and record usage reports. 
 
 Currenlty supported commands. 
 
@@ -14,7 +13,6 @@ Currenlty supported commands.
 - Delete workspace
 - List all workspaces
 - List unused workspaces
-
 
 Installation
 ------------
@@ -36,18 +34,19 @@ export TFE_TOKEN="Replace with Terraform cloud token"
 export TFE_ORGANISATION="Replace with organisation"
 ```
 
-Tfc-Workspace-manager commands
-------------------------------
+Tfc-Workspace-manager usage
+---------------------------
 
-TfC workspace manager supports configuration can be seen in this demo. 
+You can see all currenlty supported commands of TfC workspace manager in following demo.
 
 ![](assets/tfc.gif)
 
-Log level
----------
 
-You can pass the log level variable for enabling detailed logs.
+Using with Terraform Enterprise
+-------------------------------
 
-```bash
-tfe-ws-manager ls --config ~/.tfe-ws-manager-config.yaml -v 2
+Terrafrom cloud workspace manager is configured to run with Terraform cloud by default. You can use TFC workspace manager with Terraform enterpise by exporting TFE host environment variable.
+
+```
+export TFE_HOST="Replace with Terraform enterpise host"
 ```
